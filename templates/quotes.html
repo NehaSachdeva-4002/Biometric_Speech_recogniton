@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Recommender</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            padding: 2rem 1rem;
+        }
+        .chat-container {
+            height: 70vh;
+            overflow-y: auto;
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+            position: relative;
+        }
+        .user-message {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            margin-left: auto;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        .bot-message {
+            background: white;
+            color: #212529;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .quote-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-left: 4px solid #007bff;
+            padding: 20px;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: slideIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            font-size: 100px;
+            color: rgba(0, 123, 255, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        .quote-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .quote-author {
+            font-size: 1rem;
+            color: #6c757d;
+            text-align: right;
+            font-weight: 500;
+        }
+        .sentiment-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .transcribed-text {
+            font-style: italic;
+            color: #6c757d;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(108, 117, 125, 0.1);
+            border-radius: 8px;
+        }
+        .input-group {
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .form-control {
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+        }
+        .form-control:focus {
+            box-shadow: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border: none;
+            padding: 0 25px;
+            font-weight: 500;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #003d7a 100%);
+            transform: translateY(-1px);
+        }
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 15px;
+        }
+        #recordButton {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        #recordButton:hover {
+            transform: scale(1.1);
+        }
+        .recording {
+            animation: pulse 1.5s infinite;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+        }
+        .timer {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        .speech-text {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            display: none;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .logout-btn {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        h1 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .welcome-message {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Quote Recommender</h1>
+            <button class="logout-btn" onclick="window.location.href='/logout'">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message">
+                <h4 class="mb-3">Welcome! 🌟</h4>
+                <p class="mb-2">Tell me about your day, and I'll recommend a quote that matches your mood.</p>
+                <p class="mb-0">You can either type your message or click the microphone button to speak.</p>
+            </div>
+        </div>
+        <div class="input-group">
+            <div class="speech-text" id="speechText"></div>
+            <input type="text" class="form-control" id="userInput" placeholder="Type your message here...">
+            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+            <div class="audio-controls">
+                <button class="btn btn-danger" id="recordButton" onclick="toggleRecording()">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <span class="timer" id="recordingTimer"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let timerInterval;
+        let startTime;
+        let recognition;
+        let finalTranscript = '';
+
+        // Initialize speech recognition
+        function initSpeechRecognition() {
+            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!window.SpeechRecognition) {
+                alert('Speech recognition is not supported in this browser.');
+                return;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                let finalTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                // Update the input field with both interim and final results
+                const inputField = document.getElementById('userInput');
+                inputField.value = finalTranscript + interimTranscript;
+                
+                // Show interim results in the speech text div
+                const speechText = document.getElementById('speechText');
+                speechText.textContent = interimTranscript;
+                speechText.style.display = interimTranscript ? 'block' : 'none';
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                if (event.error === 'no-speech') {
+                    document.getElementById('speechText').style.display = 'none';
+                }
+            };
+
+            recognition.onend = () => {
+                if (isRecording) {
+                    recognition.start();
+                }
+            };
+        }
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('recordingTimer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        async function setupRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const reader = new FileReader();
+                    reader.readAsDataURL(audioBlob);
+                    reader.onloadend = () => {
+                        sendAudioMessage(reader.result);
+                    };
+                };
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                alert('Error accessing microphone. Please ensure you have granted microphone permissions.');
+            }
+        }
+
+        function toggleRecording() {
+            const recordButton = document.getElementById('recordButton');
+            const timerDisplay = document.getElementById('recordingTimer');
+            const speechText = document.getElementById('speechText');
+            const inputField = document.getElementById('userInput');
+            
+            if (!isRecording) {
+                if (!mediaRecorder) {
+                    setupRecording().then(() => startRecording());
+                } else {
+                    startRecording();
+                }
+            } else {
+                stopRecording();
+            }
+
+            function startRecording() {
+                audioChunks = [];
+                inputField.value = ''; // Clear input field when starting new recording
+                mediaRecorder.start();
+                isRecording = true;
+                recordButton.classList.add('recording');
+                recordButton.innerHTML = '<i class="fas fa-stop"></i>';
+                startTime = Date.now();
+                timerDisplay.textContent = '0:00';
+                timerInterval = setInterval(updateTimer, 1000);
+                
+                // Start speech recognition
+                if (!recognition) {
+                    initSpeechRecognition();
+                }
+                recognition.start();
+            }
+
+            function stopRecording() {
+                mediaRecorder.stop();
+                isRecording = false;
+                recordButton.classList.remove('recording');
+                recordButton.innerHTML = '<i class="fas fa-microphone"></i>';
+                clearInterval(timerInterval);
+                timerDisplay.textContent = '';
+                speechText.style.display = 'none';
+                
+                // Stop speech recognition
+                if (recognition) {
+                    recognition.stop();
+                }
+            }
+        }
+
+        function addMessage(text, isUser = false) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.textContent = text;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function addQuoteCard(quote, author, sentiment, transcribedText = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const quoteDiv = document.createElement('div');
+            quoteDiv.className = 'message bot-message';
+            
+            let content = '';
+            if (transcribedText) {
+                content += `<div class="transcribed-text">You said: "${transcribedText}"</div>`;
+            }
+            content += `
+                <div class="quote-card">
+                    <span class="badge bg-${getSentimentBadgeColor(sentiment)} sentiment-badge">${sentiment}</span>
+                    <p class="quote-text">${quote}</p>
+                    <p class="quote-author">- ${author}</p>
+                </div>
+            `;
+            
+            quoteDiv.innerHTML = content;
+            chatContainer.appendChild(quoteDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function getSentimentBadgeColor(sentiment) {
+            switch(sentiment) {
+                case 'positive': return 'success';
+                case 'negative': return 'danger';
+                default: return 'secondary';
+            }
+        }
+
+        async function sendAudioMessage(audioData) {
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        audio: audioData,
+                        text: document.getElementById('userInput').value 
+                    }),
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    addQuoteCard(data.quote, data.author, data.sentiment, data.transcribed_text);
+                } else {
+                    addMessage('Sorry, I encountered an error. Please try again.');
+                }
+            } catch (error) {
+                addMessage('Sorry, I encountered an error. Please try again.');
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            addMessage(text, true);
+            input.value = '';
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: text }),
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    addQuoteCard(data.quote, data.author, data.sentiment);
+                } else {
+                    addMessage('Sorry, I encountered an error. Please try again.');
+                }
+            } catch (error) {
+                addMessage('Sorry, I encountered an error. Please try again.');
+            }
+        }
+
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html> 

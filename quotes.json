@@ -1,0 +1,54 @@
+{
+    "quotes": [
+        {
+            "quote": "The only way to do great work is to love what you do.",
+            "author": "Steve Jobs",
+            "tags": ["inspiration", "work", "passion", "success"]
+        },
+        {
+            "quote": "In the middle of every difficulty lies opportunity.",
+            "author": "Albert Einstein",
+            "tags": ["wisdom", "opportunity", "challenge"]
+        },
+        {
+            "quote": "The best way to predict the future is to create it.",
+            "author": "Peter Drucker",
+            "tags": ["future", "motivation", "action"]
+        },
+        {
+            "quote": "Happiness is not something ready made. It comes from your own actions.",
+            "author": "Dalai Lama",
+            "tags": ["happiness", "self-improvement", "wisdom"]
+        },
+        {
+            "quote": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            "author": "Winston Churchill",
+            "tags": ["success", "failure", "perseverance"]
+        },
+        {
+            "quote": "The only limit to our realization of tomorrow will be our doubts of today.",
+            "author": "Franklin D. Roosevelt",
+            "tags": ["future", "confidence", "motivation"]
+        },
+        {
+            "quote": "Life is what happens when you're busy making other plans.",
+            "author": "John Lennon",
+            "tags": ["life", "wisdom", "perspective"]
+        },
+        {
+            "quote": "The journey of a thousand miles begins with one step.",
+            "author": "Lao Tzu",
+            "tags": ["journey", "beginning", "wisdom"]
+        },
+        {
+            "quote": "Believe you can and you're halfway there.",
+            "author": "Theodore Roosevelt",
+            "tags": ["belief", "confidence", "motivation"]
+        },
+        {
+            "quote": "It does not matter how slowly you go as long as you do not stop.",
+            "author": "Confucius",
+            "tags": ["perseverance", "progress", "wisdom"]
+        }
+    ]
+} 
