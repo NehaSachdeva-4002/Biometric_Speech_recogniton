@@ -165,18 +165,37 @@ def extract_features(file_path):
         # Load audio file
         y, sr = librosa.load(file_path, sr=None)
         
-        # Extract MFCC features
+        # Extract MFCC features with fixed number of coefficients
         mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
         
         # Extract pitch features
         pitches, magnitudes = librosa.piptrack(y=y, sr=sr)
         pitch_mean = np.mean(pitches[magnitudes > np.max(magnitudes)/10])
         
-        # Combine features
-        features = np.concatenate([
+        # Extract additional features for robustness
+        spectral_centroid = librosa.feature.spectral_centroid(y=y, sr=sr)[0]
+        spectral_rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)[0]
+        zero_crossing_rate = librosa.feature.zero_crossing_rate(y)[0]
+        
+        # Calculate statistics for each feature
+        mfcc_stats = np.concatenate([
             np.mean(mfcc, axis=1),
-            [pitch_mean]
+            np.std(mfcc, axis=1)
         ])
+        
+        # Combine all features into a fixed-size vector
+        features = np.concatenate([
+            mfcc_stats,  # 26 features (13 mean + 13 std)
+            [pitch_mean],  # 1 feature
+            [np.mean(spectral_centroid)],  # 1 feature
+            [np.mean(spectral_rolloff)],  # 1 feature
+            [np.mean(zero_crossing_rate)]  # 1 feature
+        ])
+        
+        # Ensure the feature vector has exactly 30 dimensions
+        if len(features) != 30:
+            logger.warning(f"Feature vector has {len(features)} dimensions, padding to 30")
+            features = np.pad(features, (0, 30 - len(features)))
         
         return features
     except Exception as e:

@@ -1,54 +1,155 @@
 {
     "quotes": [
-        {
-            "quote": "The only way to do great work is to love what you do.",
-            "author": "Steve Jobs",
-            "tags": ["inspiration", "work", "passion", "success"]
-        },
-        {
-            "quote": "In the middle of every difficulty lies opportunity.",
-            "author": "Albert Einstein",
-            "tags": ["wisdom", "opportunity", "challenge"]
-        },
-        {
-            "quote": "The best way to predict the future is to create it.",
-            "author": "Peter Drucker",
-            "tags": ["future", "motivation", "action"]
-        },
-        {
-            "quote": "Happiness is not something ready made. It comes from your own actions.",
-            "author": "Dalai Lama",
-            "tags": ["happiness", "self-improvement", "wisdom"]
-        },
-        {
-            "quote": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-            "author": "Winston Churchill",
-            "tags": ["success", "failure", "perseverance"]
-        },
-        {
-            "quote": "The only limit to our realization of tomorrow will be our doubts of today.",
-            "author": "Franklin D. Roosevelt",
-            "tags": ["future", "confidence", "motivation"]
-        },
-        {
-            "quote": "Life is what happens when you're busy making other plans.",
-            "author": "John Lennon",
-            "tags": ["life", "wisdom", "perspective"]
-        },
-        {
-            "quote": "The journey of a thousand miles begins with one step.",
-            "author": "Lao Tzu",
-            "tags": ["journey", "beginning", "wisdom"]
-        },
-        {
-            "quote": "Believe you can and you're halfway there.",
-            "author": "Theodore Roosevelt",
-            "tags": ["belief", "confidence", "motivation"]
-        },
-        {
-            "quote": "It does not matter how slowly you go as long as you do not stop.",
-            "author": "Confucius",
-            "tags": ["perseverance", "progress", "wisdom"]
-        }
+      {
+        "quote": "The only way to do great work is to love what you do.",
+        "author": "Steve Jobs",
+        "tags": ["inspiration", "work", "passion", "success"]
+      },
+      {
+        "quote": "In the middle of every difficulty lies opportunity.",
+        "author": "Albert Einstein",
+        "tags": ["wisdom", "opportunity", "challenge"]
+      },
+      {
+        "quote": "The best way to predict the future is to create it.",
+        "author": "Peter Drucker",
+        "tags": ["future", "motivation", "action"]
+      },
+      {
+        "quote": "Happiness is not something ready made. It comes from your own actions.",
+        "author": "Dalai Lama",
+        "tags": ["happiness", "self-improvement", "wisdom"]
+      },
+      {
+        "quote": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+        "author": "Winston Churchill",
+        "tags": ["success", "failure", "perseverance"]
+      },
+      {
+        "quote": "The only limit to our realization of tomorrow will be our doubts of today.",
+        "author": "Franklin D. Roosevelt",
+        "tags": ["future", "confidence", "motivation"]
+      },
+      {
+        "quote": "Life is what happens when you're busy making other plans.",
+        "author": "John Lennon",
+        "tags": ["life", "wisdom", "perspective"]
+      },
+      {
+        "quote": "The journey of a thousand miles begins with one step.",
+        "author": "Lao Tzu",
+        "tags": ["journey", "beginning", "wisdom"]
+      },
+      {
+        "quote": "Believe you can and you're halfway there.",
+        "author": "Theodore Roosevelt",
+        "tags": ["belief", "confidence", "motivation"]
+      },
+      {
+        "quote": "It does not matter how slowly you go as long as you do not stop.",
+        "author": "Confucius",
+        "tags": ["perseverance", "progress", "wisdom"]
+      },
+      {
+        "quote": "Don’t watch the clock; do what it does. Keep going.",
+        "author": "Sam Levenson",
+        "tags": ["motivation", "time", "perseverance"]
+      },
+      {
+        "quote": "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
+        "author": "Ralph Waldo Emerson",
+        "tags": ["inner-strength", "wisdom", "inspiration"]
+      },
+      {
+        "quote": "Act as if what you do makes a difference. It does.",
+        "author": "William James",
+        "tags": ["action", "impact", "motivation"]
+      },
+      {
+        "quote": "You miss 100% of the shots you don’t take.",
+        "author": "Wayne Gretzky",
+        "tags": ["risk", "action", "motivation"]
+      },
+      {
+        "quote": "Strive not to be a success, but rather to be of value.",
+        "author": "Albert Einstein",
+        "tags": ["value", "success", "purpose"]
+      },
+      {
+        "quote": "Everything you’ve ever wanted is on the other side of fear.",
+        "author": "George Addair",
+        "tags": ["fear", "growth", "motivation"]
+      },
+      {
+        "quote": "Success usually comes to those who are too busy to be looking for it.",
+        "author": "Henry David Thoreau",
+        "tags": ["success", "focus", "work"]
+      },
+      {
+        "quote": "Don’t be pushed around by the fears in your mind. Be led by the dreams in your heart.",
+        "author": "Roy T. Bennett",
+        "tags": ["fear", "dreams", "courage"]
+      },
+      {
+        "quote": "The future belongs to those who believe in the beauty of their dreams.",
+        "author": "Eleanor Roosevelt",
+        "tags": ["dreams", "future", "belief"]
+      },
+      {
+        "quote": "Do what you can, with what you have, where you are.",
+        "author": "Theodore Roosevelt",
+        "tags": ["action", "motivation", "resourcefulness"]
+      },
+      {
+        "quote": "Keep your face always toward the sunshine—and shadows will fall behind you.",
+        "author": "Walt Whitman",
+        "tags": ["positivity", "hope", "inspiration"]
+      },
+      {
+        "quote": "Do not wait for the perfect moment. Take the moment and make it perfect.",
+        "author": "Unknown",
+        "tags": ["motivation", "action", "mindfulness"]
+      },
+      {
+        "quote": "Opportunities don't happen. You create them.",
+        "author": "Chris Grosser",
+        "tags": ["opportunity", "success", "action"]
+      },
+      {
+        "quote": "Dream big and dare to fail.",
+        "author": "Norman Vaughan",
+        "tags": ["dreams", "courage", "failure"]
+      },
+      {
+        "quote": "Don’t limit your challenges. Challenge your limits.",
+        "author": "Jerry Dunn",
+        "tags": ["growth", "challenge", "motivation"]
+      },
+      {
+        "quote": "Start where you are. Use what you have. Do what you can.",
+        "author": "Arthur Ashe",
+        "tags": ["action", "resourcefulness", "motivation"]
+      },
+      {
+        "quote": "You are never too old to set another goal or to dream a new dream.",
+        "author": "C.S. Lewis",
+        "tags": ["dreams", "goals", "inspiration"]
+      },
+      {
+        "quote": "Hardships often prepare ordinary people for an extraordinary destiny.",
+        "author": "C.S. Lewis",
+        "tags": ["hardship", "resilience", "destiny"]
+      },
+      {
+        "quote": "Push yourself, because no one else is going to do it for you.",
+        "author": "Unknown",
+        "tags": ["self-motivation", "discipline", "action"]
+      },
+      {
+        "quote": "Great things never come from comfort zones.",
+        "author": "Unknown",
+        "tags": ["growth", "comfort-zone", "success"]
+      }
     ]
-} 
+  }
+  
