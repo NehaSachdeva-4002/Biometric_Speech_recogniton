@@ -297,6 +297,13 @@
             statusDiv.textContent = message;
             statusDiv.className = `status-message ${type}`;
             statusDiv.style.display = 'block';
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 3000);
+            }
         }
 
         async function handleRegister(event) {
@@ -305,6 +312,11 @@
             const password = document.getElementById('regPassword').value;
             const passphrase = document.getElementById('regPassphrase').value;
             const audioElement = document.getElementById('registerAudio');
+
+            if (!username || !password || !passphrase) {
+                showStatus('Please fill in all fields', 'error');
+                return false;
+            }
 
             if (!audioElement.src) {
                 showStatus('Please record your voice first', 'error');
@@ -315,22 +327,37 @@
             formData.append('username', username);
             formData.append('password', password);
             formData.append('user_passphrase', passphrase);
-            formData.append('audio', await fetch(audioElement.src).then(r => r.blob()), 'audio.webm');
-
+            
             try {
+                const audioBlob = await fetch(audioElement.src).then(r => r.blob());
+                formData.append('audio', audioBlob, 'audio.webm');
+                
+                showStatus('Processing registration...', 'info');
+                
                 const response = await fetch('/register', {
                     method: 'POST',
-                    body: formData 
+                    body: formData,
+                    headers: {
+                        'Accept': 'text/plain'
+                    }
                 });
+                
                 const result = await response.text();
-                showStatus(result, response.ok ? 'success' : 'error');
                 
                 if (response.ok) {
+                    showStatus(result, 'success');
                     // Clear form on success
                     document.getElementById('registerFormElement').reset();
                     document.getElementById('registerAudioContainer').style.display = 'none';
+                    // Switch to login form
+                    document.getElementById('formToggle').checked = false;
+                    document.getElementById('registerForm').classList.remove('active');
+                    document.getElementById('loginForm').classList.add('active');
+                } else {
+                    showStatus(result, 'error');
                 }
             } catch (error) {
+                console.error('Registration error:', error);
                 showStatus(`Error: ${error.message}`, 'error');
             }
             return false;
@@ -340,6 +367,17 @@
             event.preventDefault();
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
+            
+            if (!username || !password) {
+                showStatus('Please enter both username and password', 'error');
+                return false;
+            }
+            
+            if (!audioChunks || audioChunks.length === 0) {
+                showStatus('Please record your voice first', 'error');
+                return false;
+            }
+            
             const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
             
             const formData = new FormData();
@@ -348,23 +386,43 @@
             formData.append('audio', audioBlob, 'login.webm');
             
             try {
+                showStatus('Processing login...', 'info');
+                
                 const response = await fetch('/login', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 });
                 
-                const data = await response.json();
+                let data;
+                try {
+                    data = await response.json();
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                    throw new Error('Invalid server response');
+                }
                 
-                if (response.ok && data.success) {
+                if (!response.ok) {
+                    throw new Error(data.error || 'Login failed');
+                }
+                
+                if (data.success) {
                     showStatus(data.message, 'success');
-                    // Redirect to quotes page
-                    window.location.href = data.redirect;
+                    // Add a small delay before redirect to show success message
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1000);
                 } else {
                     showStatus(data.error || 'Login failed', 'error');
                 }
             } catch (error) {
-                showStatus('An error occurred during login', 'error');
+                console.error('Login error:', error);
+                showStatus(error.message || 'Failed to connect to server', 'error');
             }
+            
+            return false;
         }
 
         document.getElementById('loginUsername').addEventListener('change', async function() {
