@@ -175,5 +175,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - TextBlob for sentiment analysis
 - SpeechRecognition for voice-to-text conversion # Biometric_Speech_recogniton
 
-
-this is readme data please help me delete the existing readme and create it again as it is not coming right
