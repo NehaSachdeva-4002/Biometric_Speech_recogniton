@@ -1,6 +1,7 @@
-# Voice Biometric Authentication with Quote Recommendation System
+# 🔐 Voice Biometric Authentication + 🎯 Sentiment-Based Quote Recommendation
 
-This project combines voice biometric authentication with a sentiment-based quote recommendation system. Users can register and log in using their voice, and once authenticated, they can receive personalized quotes based on their mood or input.
+This project fuses **voice biometric authentication** with a **sentiment-aware quote recommender**, giving users a secure and personalized experience. Users register and log in using **just their voice**, and once authenticated, receive quotes tailored to their **mood or input** — via **text or speech**.
+
 ![Screenshot 2025-04-14 170507](https://github.com/user-attachments/assets/7b83b6d3-ec88-4dd2-bef0-8ca35fcc81bf)
 
 ![Screenshot 2025-04-14 170521](https://github.com/user-attachments/assets/237e2d2f-8ecc-4247-a167-fe87e7e297f7)
